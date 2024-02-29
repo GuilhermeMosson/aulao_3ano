@@ -1,0 +1,20 @@
+.light{
+    background-color: white;
+}
+
+html{
+    background-color: black;
+}
+
+#troca{
+    padding: 20px 30px;
+    border: none;
+    border-radius: 999px;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+#troca:hover{
+    cursor: pointer;
+    background-color: rgb(177, 177, 177);
+}

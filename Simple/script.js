@@ -28,3 +28,22 @@ function calcularMedia(){
         media.style.color = "red";
     }
 }
+
+function contar(){
+    const nu = parseInt(document.getElementById("numeroInput").valueAsNumber);
+
+    if(isNaN(nu)){
+        resuCont.textContent = ("Por favor, informe um número válido");
+        return;
+    }
+
+    var resultadoStr = "";
+    if(nu >= 10000){
+        resuCont.textContent = ("Por favor, insira um número menor");
+    }else{
+        for(var cont = 1; cont <= nu; cont++){
+            resultadoStr = resultadoStr + cont + " - ";
+        }
+        resuCont.textContent = (resultadoStr);
+    }
+}
