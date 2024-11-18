@@ -1,0 +1,1533 @@
+using System.Linq;
+
+using Microsoft.AspNetCore.Mvc;
+
+using clashclash.Models;
+
+using Microsoft.AspNetCore.Cors.Infrastructure;
+
+using System.Xml.Linq;
+
+ 
+
+namespace clashclash.Controllers
+
+{
+
+    public class CardController : Controller
+
+    {
+
+    private static List<CardModel> _cards = new List<CardModel>
+
+        {
+
+        new CardModel
+
+        {
+
+          Name = "Knight",
+
+          Id = 26000000,
+
+          maxlevel = 14,
+
+          maxevolutionlevel = 1,
+
+          Medium = "https://api-assets.clashroyale.com/cards/300/jAj1Q5rclXxU9kVImGqSJxa4wEMfEhvwNQ_4jiGUuqg.png",
+
+          elixircost = 3,
+
+          Rarity = "common",
+
+        Type = "ground troop",
+
+        Gender = "male",
+
+        LaunchDate = 2016
+
+ 
+
+        },
+
+ 
+
+        new CardModel 
+
+        {
+
+          Name = "Archers",
+
+          Id = 26000001,
+
+          maxlevel = 14,
+
+          maxevolutionlevel = 1,
+
+          elixircost = 3,
+
+          Medium = "https://api-assets.clashroyale.com/cards/300/W4Hmp8MTSdXANN8KdblbtHwtsbt0o749BbxNqmJYfA8.png",
+
+          Rarity = "common",
+
+        Type = "ground troop",
+
+        Gender = "female",
+
+        LaunchDate = 2016
+
+        },
+
+        
+
+        new CardModel
+
+        {
+
+ 
+
+          Name = "Goblins",
+
+          Id = 26000002,
+
+          maxlevel = 14,
+
+          elixircost = 2,
+
+          Medium = "https://api-assets.clashroyale.com/cards/300/X_DQUye_OaS3QN6VC9CPw05Fit7wvSm3XegXIXKP--0.png",
+
+          Rarity = "common",
+
+        Type = "ground troop",
+
+        Gender = "goblin",
+
+        LaunchDate = 2016
+
+        },
+
+        
+
+      
+
+        new CardModel
+
+        {
+
+          Name = "P.E.K.K.A",
+
+          Id = 26000004,
+
+          maxlevel = 9,
+
+          elixircost = 7,        
+
+          Medium = "https://api-assets.clashroyale.com/cards/300/MlArURKhn_zWAZY-Xj1qIRKLVKquarG25BXDjUQajNs.png",
+
+          Rarity = "epic",
+
+          maxevolutionlevel = 1,
+
+        Type = "ground troop",
+
+        Gender = "n/a",
+
+        LaunchDate = 2016
+
+        },
+
+        
+
+        new CardModel
+
+        {
+
+          Name = "Minions",
+
+          Id = 26000005,
+
+          maxlevel = 14,
+
+          elixircost = 3,        
+
+          Medium = "https://api-assets.clashroyale.com/cards/300/yHGpoEnmUWPGV_hBbhn-Kk-Bs838OjGzWzJJlQpQKQA.png",
+
+          Rarity = "common",
+
+        Type = "air troop",
+
+        Gender = "n/a",
+
+        LaunchDate = 2016
+
+        },
+
+      
+
+        new CardModel
+
+        {
+
+          Name = "Balloon",
+
+          Id = 26000006,
+
+          maxlevel = 9,
+
+          elixircost = 5,        
+
+          Medium = "https://api-assets.clashroyale.com/cards/300/qBipxLo-3hhCnPrApp2Nn3b2NgrSrvwzWytvREev0CY.png",
+
+          Rarity = "epic",
+
+        Type = "air troop",
+
+        Gender = "n/a",
+
+        LaunchDate = 2016
+
+        },
+
+      
+
+        new CardModel
+
+        {
+
+          Name = "Witch",
+
+          Id = 26000007,
+
+          maxlevel = 9,
+
+          elixircost = 5,        
+
+          Medium = "https://api-assets.clashroyale.com/cards/300/cfwk1vzehVyHC-uloEIH6NOI0hOdofCutR5PyhIgO6w.png",
+
+          Rarity = "epic",
+
+        Type = "ground troop",
+
+        Gender = "female",
+
+        LaunchDate = 2016
+
+        },
+
+        
+
+        new CardModel
+
+        {
+
+          Name = "Barbarians",
+
+          Id = 26000008,
+
+          maxlevel = 14,
+
+          maxevolutionlevel = 1,
+
+          elixircost = 5,        
+
+          Medium = "https://api-assets.clashroyale.com/cards/300/TvJsuu2S4yhyk1jVYUAQwdKOnW4U77KuWWOTPOWnwfI.png",          
+
+          Rarity = "common",
+
+        Type = "ground troop",
+
+        Gender = "male",
+
+        LaunchDate = 2016
+
+          
+
+        },
+
+        
+
+        new CardModel
+
+        {
+
+          Name = "Golem",
+
+          Id = 26000009,
+
+          maxlevel = 9,
+
+          elixircost = 8,        
+
+          Medium = "https://api-assets.clashroyale.com/cards/300/npdmCnET7jmVjJvjJQkFnNSNnDxYHDBigbvIAloFMds.png",
+
+          Rarity = "epic",
+
+        Type = "ground troop",
+
+        Gender = "n/a",
+
+        LaunchDate = 2016
+
+        },
+
+        
+
+        new CardModel
+
+        {
+
+          Name = "Skeletons",
+
+          Id = 26000010,
+
+          maxlevel = 14,
+
+          maxevolutionlevel = 1,
+
+          elixircost = 1,        
+
+          Medium = "https://api-assets.clashroyale.com/cards/300/oO7iKMU5m0cdxhYPZA3nWQiAUh2yoGgdThLWB1rVSec.png",          
+
+          Rarity = "common",
+
+        Type = "ground troop",
+
+        Gender = "n/a",
+
+        LaunchDate = 2016
+
+        },
+
+ 
+
+        new CardModel
+
+        {
+
+          Name = "Valkyrie",
+
+          Id = 26000011,
+
+          maxlevel = 12,
+
+          maxevolutionlevel = 1,
+
+          elixircost = 4,        
+
+          Medium = "https://api-assets.clashroyale.com/cards/300/0lIoYf3Y_plFTzo95zZL93JVxpfb3MMgFDDhgSDGU9A.png",          
+
+          Rarity = "rare",
+
+        Type = "ground troop",
+
+        Gender = "female",
+
+        LaunchDate = 2016
+
+        },
+
+ 
+
+        new CardModel
+
+        {
+
+          Name = "Skeleton Army",
+
+          Id = 26000012,
+
+          maxlevel = 9,
+
+          elixircost = 3,        
+
+          Medium = "https://api-assets.clashroyale.com/cards/300/fAOToOi1pRy7svN2xQS6mDkhQw2pj9m_17FauaNqyl4.png",
+
+          Rarity = "epic",
+
+        Type = "ground troop",
+
+        Gender = "n/a",
+
+        LaunchDate = 2016
+
+        },
+
+        
+
+        new CardModel
+
+        {
+
+          Name = "Bomber",
+
+          Id = 26000013,
+
+          maxlevel = 14,
+
+          maxevolutionlevel = 1,
+
+          elixircost = 2,        
+
+          Medium = "https://api-assets.clashroyale.com/cards/300/12n1CesxKIcqVYntjxcF36EFA-ONw7Z-DoL0_rQrbdo.png",          
+
+          Rarity = "common",
+
+        Type = "ground troop",
+
+        Gender = "n/a",
+
+        LaunchDate = 2016
+
+        },
+
+        
+
+        new CardModel
+
+        {
+
+          Name = "Musketeer",
+
+          Id = 26000014,
+
+          maxlevel = 12,
+
+          maxevolutionlevel = 1,
+
+          elixircost = 4,        
+
+          Medium = "https://api-assets.clashroyale.com/cards/300/Tex1C48UTq9FKtAX-3tzG0FJmc9jzncUZG3bb5Vf-Ds.png",
+
+          Rarity = "rare",
+
+        Type = "ground troop",
+
+        Gender = "female",
+
+        LaunchDate = 2016
+
+        },
+
+        
+
+        new CardModel
+
+        {
+
+          Name = "Baby Dragon",
+
+          Id = 26000015,
+
+          maxlevel = 9,
+
+          elixircost = 4,        
+
+          Medium = "https://api-assets.clashroyale.com/cards/300/cjC9n4AvEZJ3urkVh-rwBkJ-aRSsydIMqSAV48hAih0.png",
+
+          Rarity = "epic",
+
+        Type = "air troop",
+
+        Gender = "n/a",
+
+        LaunchDate = 2016
+
+        },
+
+        
+
+        new CardModel
+
+        {
+
+          Name = "Prince",
+
+          Id = 26000016,
+
+          maxlevel = 9,
+
+          elixircost = 5,        
+
+          Medium = "https://api-assets.clashroyale.com/cards/300/3JntJV62aY0G1Qh6LIs-ek-0ayeYFY3VItpG7cb9I60.png",
+
+          Rarity = "epic",
+
+        Type = "ground troop",
+
+        Gender = "male",
+
+        LaunchDate = 2016
+
+        },
+
+        
+
+        new CardModel
+
+        {
+
+          Name = "Wizard",
+
+          Id = 26000017,
+
+          maxlevel = 12,
+
+          maxevolutionlevel = 1,
+
+          elixircost = 5,        
+
+          Medium = "https://api-assets.clashroyale.com/cards/300/Mej7vnv4H_3p_8qPs_N6_GKahy6HDr7pU7i9eTHS84U.png",          
+
+          Rarity = "rare",
+
+        Type = "ground troop",
+
+        Gender = "male",
+
+        LaunchDate = 2016
+
+        },
+
+        
+
+        new CardModel
+
+        {
+
+          Name = "Mini P.E.K.K.A",
+
+          Id = 26000018,
+
+          maxlevel = 12,
+
+          elixircost = 4,        
+
+          Medium = "https://api-assets.clashroyale.com/cards/300/Fmltc4j3Ve9vO_xhHHPEO3PRP3SmU2oKp2zkZQHRZT4.png",
+
+          Rarity = "rare",
+
+        Type = "ground troop",
+
+        Gender = "n/a",
+
+        LaunchDate = 2016
+
+        },
+
+        
+
+        new CardModel
+
+        {
+
+          Name = "Spear Goblins",
+
+          Id = 26000019,
+
+          maxlevel = 14,
+
+          elixircost = 2,        
+
+          Medium = "https://api-assets.clashroyale.com/cards/300/FSDFotjaXidI4ku_WFpVCTWS1hKGnFh1sxX0lxM43_E.png",
+
+          Rarity = "common",
+
+        Type = "ground troop",
+
+        Gender = "goblin",
+
+        LaunchDate = 2016
+
+        },
+
+        
+
+        new CardModel
+
+        {
+
+          Name = "Giant Skeleton",
+
+          Id = 26000020,
+
+          maxlevel = 9,
+
+          elixircost = 6,        
+
+          Medium = "https://api-assets.clashroyale.com/cards/300/0p0gd0XaVRu1Hb1iSG1hTYbz2AN6aEiZnhaAib5O8Z8.png",
+
+          Rarity = "epic",
+
+        Type = "ground troop",
+
+        Gender = "n/a",
+
+        LaunchDate = 2016
+
+        },
+
+        
+
+        new CardModel
+
+        {
+
+          Name = "Hog Rider",
+
+          Id = 26000021,
+
+          maxlevel = 12,
+
+          elixircost = 4,        
+
+          Medium = "https://api-assets.clashroyale.com/cards/300/Ubu0oUl8tZkusnkZf8Xv9Vno5IO29Y-jbZ4fhoNJ5oc.png",
+
+          Rarity = "rare",
+
+        Type = "ground troop",
+
+        Gender = "male",
+
+        LaunchDate = 2016
+
+        },
+
+        
+
+        new CardModel
+
+        {
+
+          Name = "Minion Horde",
+
+          Id = 26000022,
+
+          maxlevel = 14,
+
+          elixircost = 5,        
+
+          Medium = "https://api-assets.clashroyale.com/cards/300/Wyjq5l0IXHTkX9Rmpap6HaH08MvjbxFp1xBO9a47YSI.png",
+
+          Rarity = "common",
+
+        Type = "air troop",
+
+        Gender = "n/a",
+
+        LaunchDate = 2016
+
+        },
+
+        
+
+        new CardModel
+
+        {
+
+          Name = "Ice Wizard",
+
+          Id = 26000023,
+
+          maxlevel = 6,
+
+          elixircost = 3,        
+
+          Medium = "https://api-assets.clashroyale.com/cards/300/W3dkw0HTw9n1jB-zbknY2w3wHuyuLxSRIAV5fUT1SEY.png",
+
+          Rarity = "legendary",
+
+        Type = "ground troop",
+
+        Gender = "male",
+
+        LaunchDate = 2016
+
+        },
+
+        
+
+        new CardModel
+
+        {
+
+          Name = "Royal Giant",
+
+          Id = 26000024,
+
+          maxlevel = 14,
+
+          elixircost = 6,        
+
+          Medium = "",
+
+          Rarity = "common",
+
+        maxevolutionlevel = 1,
+
+        Type = "ground troop",
+
+        Gender = "male",
+
+        LaunchDate = 2016
+
+        },
+
+        
+
+        new CardModel
+
+        {
+
+          Name = "Guards",
+
+          Id = 26000025,
+
+          maxlevel = 9,
+
+          elixircost = 3,        
+
+          Medium = "https://api-assets.clashroyale.com/cards/300/1ArKfLJxYo6_NU_S9cAeIrfbXqWH0oULVJXedxBXQlU.png",
+
+          Rarity = "epic",
+
+        Type = "ground troop",
+
+        Gender = "n/a",
+
+        LaunchDate = 2016
+
+        },
+
+        
+
+        new CardModel
+
+        {
+
+          Name = "Princess",
+
+          Id = 26000026,
+
+          maxlevel = 6,
+
+          elixircost = 3,        
+
+          Medium = "https://api-assets.clashroyale.com/cards/300/bAwMcqp9EKVIKH3ZLm_m0MqZFSG72zG-vKxpx8aKoVs.png",
+
+          Rarity = "legendary",
+
+        Type = "ground troop",
+
+        Gender = "female",
+
+        LaunchDate = 2016
+
+        },
+
+        
+
+        new CardModel
+
+        {
+
+          Name = "Dark Prince",
+
+          Id = 26000027,
+
+          maxlevel = 9,
+
+          elixircost = 4,        
+
+          Medium = "https://api-assets.clashroyale.com/cards/300/M7fXlrKXHu2IvpSGpk36kXVstslbR08Bbxcy0jQcln8.png",
+
+          Rarity = "epic",
+
+        Type = "ground troop",
+
+        Gender = "male",
+
+        LaunchDate = 2016
+
+        },
+
+        
+
+        new CardModel
+
+        {
+
+          Name = "Three Musketeers",
+
+          Id = 26000028,
+
+          maxlevel = 12,
+
+          elixircost = 9,        
+
+          Medium = "https://api-assets.clashroyale.com/cards/300/_J2GhbkX3vswaFk1wG-dopwiHyNc_YiPhwroiKF3Mek.png",
+
+          Rarity = "rare",
+
+        Type = "ground troop",
+
+        Gender = "female",
+
+        LaunchDate = 2016
+
+        },
+
+        
+
+        new CardModel
+
+        {
+
+          Name = "Lava Hound",
+
+          Id = 26000029,
+
+          maxlevel = 6,
+
+          elixircost = 7,        
+
+          Medium = "https://api-assets.clashroyale.com/cards/300/unicRQ975sBY2oLtfgZbAI56ZvaWz7azj-vXTLxc0r8.png",
+
+          Rarity = "legendary",
+
+        Type = "air troop",
+
+        Gender = "n/a",
+
+        LaunchDate = 2016
+
+        },
+
+        
+
+        new CardModel
+
+        {
+
+          Name = "Ice Spirit",
+
+          Id = 26000030,
+
+          maxlevel = 14,
+
+          maxevolutionlevel = 1,
+
+          elixircost = 1,        
+
+          Medium = "https://api-assets.clashroyale.com/cards/300/lv1budiafU9XmSdrDkk0NYyqASAFYyZ06CPysXKZXlA.png",          
+
+          Rarity = "common",
+
+        Type = "ground troop",
+
+        Gender = "n/a",
+
+        LaunchDate = 2016
+
+        },
+
+        
+
+        new CardModel
+
+        {
+
+          Name = "Fire Spirit",
+
+          Id = 26000031,
+
+          maxlevel = 14,
+
+          elixircost = 1,        
+
+          Medium = "https://api-assets.clashroyale.com/cards/300/16-BqusVvynIgYI8_Jci3LDC-r8AI_xaIYLgXqtlmS8.png",
+
+          Rarity = "common",
+
+        Type = "ground troop",
+
+        Gender = "n/a",
+
+        LaunchDate = 2016
+
+        },
+
+        
+
+        new CardModel
+
+        {
+
+          Name = "Miner",
+
+          Id = 26000032,
+
+          maxlevel = 6,
+
+          elixircost = 3,        
+
+          Medium = "https://api-assets.clashroyale.com/cards/300/Y4yWvdwBCg2FpAZgs8T09Gy34WOwpLZW-ttL52Ae8NE.png",
+
+          Rarity = "legendary",
+
+        Type = "ground troop",
+
+        Gender = "male",
+
+        LaunchDate = 2016
+
+        },
+
+        
+
+        new CardModel
+
+        {
+
+          Name = "Sparky",
+
+          Id = 26000033,
+
+          maxlevel = 6,
+
+          elixircost = 6,        
+
+          Medium = "https://api-assets.clashroyale.com/cards/300/2GKMkBrArZXgQxf2ygFjDs4VvGYPbx8F6Lj_68iVhIM.png",
+
+          Rarity = "legendary",
+
+        Type = "ground troop",
+
+        Gender = "n/a",
+
+        LaunchDate = 2016
+
+        },
+
+        
+
+        new CardModel
+
+        {
+
+          Name = "Bowler",
+
+          Id = 26000034,
+
+          maxlevel = 9,
+
+          elixircost = 5,        
+
+          Medium = "https://api-assets.clashroyale.com/cards/300/SU4qFXmbQXWjvASxVI6z9IJuTYolx4A0MKK90sTIE88.png",
+
+          Rarity = "epic",
+
+        Type = "ground troop",
+
+        Gender = "n/a",
+
+        LaunchDate = 2016
+
+        },
+
+        
+
+        new CardModel
+
+        {
+
+          Name = "Lumberjack",
+
+          Id = 26000035,
+
+          maxlevel = 6,
+
+          elixircost = 4,        
+
+          Medium = "https://api-assets.clashroyale.com/cards/300/E6RWrnCuk13xMX5OE1EQtLEKTZQV6B78d00y8PlXt6Q.png",
+
+          Rarity = "legendary",
+
+        Type = "ground troop",
+
+        Gender = "male",
+
+        LaunchDate = 2016
+
+        },
+
+        
+
+        new CardModel
+
+        {
+
+          Name = "Battle Ram",
+
+          Id = 26000036,
+
+          maxlevel = 12,
+
+          maxevolutionlevel = 1,
+
+          elixircost = 4,        
+
+          Medium = "https://api-assets.clashroyale.com/cards/300/dyc50V2cplKi4H7pq1B3I36pl_sEH5DQrNHboS_dbbM.png",          
+
+          Rarity = "rare",
+
+        Type = "ground troop",
+
+        Gender = "male",
+
+        LaunchDate = 2017
+
+        },
+
+        
+
+        new CardModel
+
+        {
+
+          Name = "Inferno Dragon",
+
+          Id = 26000037,
+
+          maxlevel = 6,
+
+          elixircost = 4,        
+
+          Medium = "https://api-assets.clashroyale.com/cards/300/y5HDbKtTbWG6En6TGWU0xoVIGs1-iQpIP4HC-VM7u8A.png",
+
+          Rarity = "legendary",
+
+        Type = "air troop",
+
+        Gender = "n/a",
+
+        LaunchDate = 2016
+
+        },
+
+        
+
+        new CardModel
+
+        {
+
+          Name = "Ice Golem",
+
+          Id = 26000038,
+
+          maxlevel = 12,
+
+          elixircost = 2,        
+
+          Medium = "https://api-assets.clashroyale.com/cards/300/r05cmpwV1o7i7FHodtZwW3fmjbXCW34IJCsDEV5cZC4.png",
+
+          Rarity = "rare",
+
+        Type = "ground troop",
+
+        Gender = "n/a",
+
+        LaunchDate = 2016
+
+        },
+
+        
+
+        new CardModel
+
+        {
+
+          Name = "Mega Minion",
+
+          Id = 26000039,
+
+          maxlevel = 12,
+
+          elixircost = 3,        
+
+          Medium = "https://api-assets.clashroyale.com/cards/300/-T_e4YLbuhPBKbYnBwQfXgynNpp5eOIN_0RracYwL9c.png",
+
+          Rarity = "rare",
+
+        Type = "air troop",
+
+        Gender = "n/a",
+
+        LaunchDate = 2016
+
+        },
+
+        
+
+        new CardModel
+
+        {
+
+          Name = "Dart Goblin",
+
+          Id = 26000040,
+
+          maxlevel = 12,
+
+          elixircost = 3,        
+
+          Medium = "https://api-assets.clashroyale.com/cards/300/BmpK3bqEAviflqHCdxxnfm-_l3pRPJw3qxHkwS55nCY.png",
+
+          Rarity = "rare",
+
+        Type = "ground troop",
+
+        Gender = "goblin",
+
+        LaunchDate = 2017
+
+        },
+
+        
+
+        new CardModel
+
+        {
+
+          Name = "Goblin Gang",
+
+          Id = 26000041,
+
+          maxlevel = 14,
+
+          elixircost = 3,        
+
+          Medium = "https://api-assets.clashroyale.com/cards/300/NHflxzVAQT4oAz7eDfdueqpictb5vrWezn1nuqFhE4w.png",
+
+          Rarity = "common",
+
+        Type = "ground troop",
+
+        Gender = "goblin",
+
+        LaunchDate = 2017
+
+        },
+
+        
+
+        new CardModel
+
+        {
+
+          Name = "Electro Wizard",
+
+          Id = 26000042,
+
+          maxlevel = 6,
+
+          elixircost = 4,        
+
+          Medium = "https://api-assets.clashroyale.com/cards/300/RsFaHgB3w6vXsTjXdPr3x8l_GbV9TbOUCvIx07prbrQ.png",
+
+          Rarity = "legendary",
+
+        Type = "ground troop",
+
+        Gender = "male",
+
+        LaunchDate = 2016
+
+        },
+
+        
+
+        new CardModel
+
+        {
+
+          Name = "Elite Barbarians",
+
+          Id = 26000043,
+
+          maxlevel = 14,
+
+          elixircost = 6,        
+
+          Medium = "https://api-assets.clashroyale.com/cards/300/C88C5JH_F3lLZj6K-tLcMo5DPjrFmvzIb1R2M6xCfTE.png",
+
+          Rarity = "common",
+
+        Type = "ground troop",
+
+        Gender = "male",
+
+        LaunchDate = 2016
+
+        },
+
+        
+
+        new CardModel
+
+        {
+
+          Name = "Hunter",
+
+          Id = 26000044,
+
+          maxlevel = 9,
+
+          elixircost = 4,        
+
+          Medium = "https://api-assets.clashroyale.com/cards/300/VNabB1WKnYtYRSG7X_FZfnZjQDHTBs9A96OGMFmecrA.png",
+
+          Rarity = "epic",
+
+        Type = "ground troop",
+
+        Gender = "male",
+
+        LaunchDate = 2017
+
+        },
+
+        
+
+        new CardModel
+
+        {
+
+          Name = "Executioner",
+
+          Id = 26000045,
+
+          maxlevel = 9,
+
+          elixircost = 5,        
+
+          Medium = "https://api-assets.clashroyale.com/cards/300/9XL5BP2mqzV8kza6KF8rOxrpCZTyuGLp2l413DTjEoM.png",
+
+          Rarity = "epic",
+
+        Type = "ground troop",
+
+        Gender = "male",
+
+        LaunchDate = 2017
+
+        },
+
+        
+
+        new CardModel
+
+        {
+
+          Name = "Bandit",
+
+          Id = 26000046,
+
+          maxlevel = 6,
+
+          elixircost = 3,        
+
+          Medium = "https://api-assets.clashroyale.com/cards/300/QWDdXMKJNpv0go-HYaWQWP6p8uIOHjqn-zX7G0p3DyM.png",
+
+          Rarity = "legendary",
+
+        Type = "ground troop",
+
+        Gender = "female",
+
+        LaunchDate = 2017
+
+        },
+
+        
+
+        new CardModel
+
+        {
+
+          Name = "Royal Recruits",
+
+          Id = 26000047,
+
+          maxlevel = 14,
+
+          maxevolutionlevel = 1,
+
+          elixircost = 7,        
+
+          Medium = "https://api-assets.clashroyale.com/cards/300/jcNyYGUiXXNz3kuz8NBkHNKNREQKraXlb_Ts7rhCIdM.png",          
+
+          Rarity = "common",
+
+        Type = "ground troop",
+
+        Gender = "male",
+
+        LaunchDate = 2018
+
+        },
+
+        
+
+        new CardModel
+
+        {
+
+          Name = "Night Witch",
+
+          Id = 26000048,
+
+          maxlevel = 6,
+
+          elixircost = 4,        
+
+          Medium = "https://api-assets.clashroyale.com/cards/300/NpCrXDEDBBJgNv9QrBAcJmmMFbS7pe3KCY8xJ5VB18A.png",
+
+          Rarity = "legendary",
+
+        Type = "ground troop",
+
+        Gender = "female",
+
+        LaunchDate = 2017
+
+        },
+
+        
+
+        new CardModel
+
+        {
+
+          Name = "Bats",
+
+          Id = 26000049,
+
+          maxlevel = 14,
+
+          maxevolutionlevel = 1,
+
+          elixircost = 2,        
+
+          Medium = "https://api-assets.clashroyale.com/cards/300/EnIcvO21hxiNpoI-zO6MDjLmzwPbq8Z4JPo2OKoVUjU.png",          
+
+          Rarity = "common",
+
+        Type = "air troop",
+
+        Gender = "n/a",
+
+        LaunchDate = 2017
+
+        },
+
+        
+
+        new CardModel
+
+        {
+
+          Name = "Royal Ghost",
+
+          Id = 26000050,
+
+          maxlevel = 6,
+
+          elixircost = 3,        
+
+          Medium = "https://api-assets.clashroyale.com/cards/300/3En2cz0ISQAaMTHY3hj3rTveFN2kJYq-H4VxvdJNvCM.png",
+
+          Rarity = "legendary",
+
+        Type = "ground troop",
+
+        Gender = "male",
+
+        LaunchDate = 2018
+
+        },
+
+        
+
+        new CardModel
+
+        {
+
+          Name = "Ram Rider",
+
+          Id = 26000051,
+
+          maxlevel = 6,
+
+          elixircost = 5,        
+
+          Medium = "https://api-assets.clashroyale.com/cards/300/QaJyerT7f7oMyZ3Fv1glKymtLSvx7YUXisAulxl7zRI.png",
+
+          Rarity = "legendary",
+
+        Type = "ground troop",
+
+        Gender = "female",
+
+        LaunchDate = 2018
+
+        },
+
+        
+
+        new CardModel
+
+        {
+
+          Name = "Zappies",
+
+          Id = 26000052,
+
+          maxlevel = 12,
+
+          elixircost = 4,        
+
+          Medium = "https://api-assets.clashroyale.com/cards/300/QZfHRpLRmutZbCr5fpLnTpIp89vLI6NrAwzGZ8tHEc4.png",
+
+          Rarity = "rare",
+
+        Type = "ground troop",
+
+        Gender = "n/a",
+
+        LaunchDate = 2017
+
+        },
+
+        
+
+        new CardModel
+
+        {
+
+          Name = "Rascals",
+
+          Id = 26000053,
+
+          maxlevel = 14,
+
+          elixircost = 5,        
+
+          Medium = "https://api-assets.clashroyale.com/cards/300/KV48DfwVHKx9XCjzBdk3daT_Eb52Me4VgjVO7WctRc4.png",
+
+          Rarity = "common",
+
+        Type = "ground troop",
+
+        Gender = "n/a",
+
+        LaunchDate = 2018
+
+        },
+
+        
+
+        new CardModel
+
+        {
+
+          Name = "Cannon Cart",
+
+          Id = 26000054,
+
+          maxlevel = 9,
+
+          elixircost = 5,        
+
+          Medium = "https://api-assets.clashroyale.com/cards/300/aqwxRz8HXzqlMCO4WMXNA1txynjXTsLinknqsgZLbok.png",
+
+          Rarity = "epic",
+
+        Type = "ground troop",
+
+        Gender = "n/a",
+
+        LaunchDate = 2017
+
+        },
+
+        
+
+        new CardModel
+
+        {
+
+          Name = "Mega Knight",
+
+          Id = 26000055,
+
+          maxlevel = 6,
+
+          elixircost = 7,        
+
+          Medium = "https://api-assets.clashroyale.com/cards/300/O2NycChSNhn_UK9nqBXUhhC_lILkiANzPuJjtjoz0CE.png",
+
+          Rarity = "legendary",
+
+          maxevolutionlevel = 1,
+
+        Type = "ground troop",
+
+        Gender = "male",
+
+        LaunchDate = 2017
+
+        },
+
+        
+
+        new CardModel
+
+        {
+
+          Name = "Skeleton Barrel",
+
+          Id = 26000056,
+
+          maxlevel = 14,
+
+          elixircost = 3,        
+
+          Medium = "https://api-assets.clashroyale.com/cards/300/vCB4DWCcrGbTkarjcOiVz4aNDx6GWLm0yUepg9E1MGo.png",
+
+          Rarity = "common",
+
+        Type = "air troop",
+
+        Gender = "n/a",
+
+        LaunchDate = 2017
+
+        },
+
+        
+
+        new CardModel
+
+        {
+
+          Name = "Flying Machine",
+
+          Id = 26000057,
+
+          maxlevel = 12,
+
+          elixircost = 4,        
+
+          Medium = "https://api-assets.clashroyale.com/cards/300/hzKNE3QwFcrSrDDRuVW3QY_OnrDPijSiIp-PsWgFevE.png",
+
+          Rarity = "rare",
